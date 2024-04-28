@@ -2,6 +2,7 @@ OUTPUT("build/boot.elf")
 
 SECTIONS
 {
+  . = 0x08804000;
   .text : {
     %FILES(.text)
   }

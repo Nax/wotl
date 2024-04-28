@@ -12,8 +12,16 @@ elf.load_file(File.open('build/boot.elf', 'rb'))
 
 SECTIONS.each do |section|
   elf_section = elf.sections[section.name]
-  raise "Unknown section: #{section.name}" unless elf_section
-  raise "Section size mismatch: #{section.name}" unless elf_section.data.size == section.size
+  unless elf_section
+    puts "Unknown section: #{section.name}"
+    exit 1
+  end
+
+  unless elf_section.data.size == section.size
+    puts "Section size mismatch: #{section.name}, expected #{section.size.to_s(16)}, got #{elf_section.data.size.to_s(16)}"
+    exit 1
+  end
+
   data_new[section.paddr, section.size] = elf_section.data
 end
 

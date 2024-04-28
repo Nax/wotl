@@ -12,7 +12,9 @@ LD_SCRIPT   	:= $(BUILD_DIR)/link.ld
 LD_SCRIPT_IN   	:= link.ld.in
 META_FILE   	:= meta.yml
 CC          	:= mwccpsp.exe
-LD          	:= mips-linux-gnu-ld
+ARCH 			:= mips-linux-gnu
+LD          	:= $(ARCH)-ld
+OBJCOPY     	:= $(ARCH)-objcopy
 CFLAGS      	:= -W all -O4 -nostdinc -gccinc -gccdep -Iinclude -MD
 SRC         	:= $(wildcard src/*.c)
 OBJ		 		:= $(SRC:%=$(BUILD_DIR)/obj/%.o)
@@ -21,7 +23,7 @@ DEP		 		:= $(OBJ:.o=.d)
 .PHONY: all
 all: check
 
-include $(DEP)
+-include $(DEP)
 
 .PHONY: clean
 clean:
@@ -52,3 +54,4 @@ $(LD_SCRIPT): $(SCRIPT_EXTRACT) $(LD_SCRIPT_IN) $(META_FILE)
 $(BUILD_DIR)/obj/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
+	$(OBJCOPY) $@ --set-section-alignment .text=64

@@ -44,7 +44,7 @@ def emit_object(id, section, vstart, size)
   s.sh_addr = vstart
   s.sh_offset = 0x3000
   s.sh_size = size
-  s.sh_addralign = 16
+  s.sh_addralign = 64
 
   # Build ELF header
   header.e_ident = "\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
