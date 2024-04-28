@@ -17,11 +17,10 @@ SECTIONS = [
 ]
 
 DATA = File.binread('input/BOOT.BIN')
+META = YAML.load_file('meta.yml')
 
-$gen_count = 0
-
-def emit_object(section, vstart, size)
-  section_def = SECTIONS.find { |s| s.name == section }
+def emit_object(id, section, vstart, size)
+  section_def = SECTIONS.find { |s| s.name == '.' + section }
   raise "Unknown section: #{section}" unless section_def
   voffset = vstart - section_def.vaddr
   paddr = section_def.paddr + voffset
@@ -38,13 +37,10 @@ def emit_object(section, vstart, size)
   # Build shstrtab
   shstrtab_data = "\x00"
   sh_headers[1].sh_name = shstrtab_data.size
-  shstrtab_data << section + "\x00"
+  shstrtab_data << '.' + section + "\x00"
   sh_headers[2].sh_name = shstrtab_data.size
   shstrtab_data << ".shstrtab\x00"
   elf_buffer[0x2000, shstrtab_data.size] = shstrtab_data
-  p shstrtab_data
-  p sh_headers[1].sh_name
-  p sh_headers[2].sh_name
 
   # Build shstrtab section
   s = sh_headers[2]
@@ -87,7 +83,58 @@ def emit_object(section, vstart, size)
   end
 
   FileUtils.mkpath("build/obj/split/")
-  File.binwrite("build/obj/split/file#{$gen_count}.o", elf_buffer)
+  name = "build/obj/split/#{section}#{id}.o"
+  File.binwrite(name, elf_buffer)
+  name
 end
 
-emit_object('.text', 0x08804000, 0x246f14)
+def perform_split(section)
+  section_def = SECTIONS.find { |s| s.name == "." + section }
+  files = []
+  META['files'].each do |filename, meta|
+    next unless meta[section]
+    # We have a range, we need to add it to the list
+    files << [filename, meta[section][0], meta[section][1]]
+  end
+  files.sort_by! { |f| f[1] }
+
+  # We have sorted files, let's emit
+  cursor = section_def.vaddr
+  file_id = 0
+  gens = 0
+  names = []
+  loop do
+    break if cursor >= section_def.vaddr + section_def.size
+
+    file = files[file_id]
+    if file && cursor == file[1]
+      # We have a file
+      cursor = file[2]
+      file_id += 1
+      names << "obj/#{file[0]}.o"
+    else
+      # We need to emit binary data
+      vend = section_def.vaddr + section_def.size
+      if file
+        vend = file[1]
+      end
+      name = emit_object(gens, section, cursor, vend - cursor)
+      gens += 1
+      names << name
+      cursor = vend
+    end
+  end
+  names
+end
+
+NAMES = {}
+NAMES['.text'] = perform_split('text')
+
+# Emit the linker script
+template = File.read('link.ld.in')
+NAMES.each do |section, names|
+  template.gsub!("%FILES(#{section})", names.map { |n| "#{n}(#{section})" }.join("\n"))
+end
+File.write('build/link.ld', template)
+
+#emit_object('.text', 0x08804000, 0x246f14)

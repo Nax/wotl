@@ -1,0 +1,8 @@
+OUTPUT("build/boot.elf")
+
+SECTIONS
+{
+  .text : {
+    %FILES(.text)
+  }
+}
