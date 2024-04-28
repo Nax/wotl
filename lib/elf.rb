@@ -51,6 +51,25 @@ class ElfHeader
   def load_file(f)
     load_bin(f.read(0x34))
   end
+
+  def serialize
+    [
+      @e_ident,
+      @e_type,
+      @e_machine,
+      @e_version,
+      @e_entry,
+      @e_phoff,
+      @e_shoff,
+      @e_flags,
+      @e_ehsize,
+      @e_phentsize,
+      @e_phnum,
+      @e_shentsize,
+      @e_shnum,
+      @e_shstrndx
+    ].pack('a16S<S<L<L<L<L<L<S<S<S<S<S<S<')
+  end
 end
 
 class ElfSectionHeader
@@ -93,6 +112,21 @@ class ElfSectionHeader
 
   def load_file(f)
     load_bin(f.read(0x28))
+  end
+
+  def serialize
+    [
+      @sh_name,
+      @sh_type,
+      @sh_flags,
+      @sh_addr,
+      @sh_offset,
+      @sh_size,
+      @sh_link,
+      @sh_info,
+      @sh_addralign,
+      @sh_entsize
+    ].pack('L<L<L<L<L<L<L<L<L<L<')
   end
 end
 
@@ -165,35 +199,5 @@ class ElfSectionHeader
     @sh_info = data[0x1c, 4].unpack('L<').first
     @sh_addralign = data[0x20, 4].unpack('L<').first
     @sh_entsize = data[0x24, 4].unpack('L<').first
-  end
-end
-
-class Elf
-  attr_accessor :header
-  attr_accessor :section_headers
-  attr_accessor :program_headers
-
-  def initialize
-    @header = ElfHeader.new
-    @section_headers = []
-    @program_headers = []
-  end
-
-  def load_file(f)
-    @header.load_file(f)
-
-    f.seek(@header.e_shoff)
-    @header.e_shnum.times do
-      sh = ElfSectionHeader.new
-      sh.load_file(f)
-      @section_headers << sh
-    end
-
-    f.seek(@header.e_phoff)
-    @header.e_phnum.times do
-      ph = ElfProgramHeader.new
-      ph.load_bin(f.read(0x20))
-      @program_headers << ph
-    end
   end
 end
