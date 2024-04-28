@@ -13,12 +13,26 @@ LD_SCRIPT_IN   	:= link.ld.in
 META_FILE   	:= meta.yml
 CC          	:= mwccpsp.exe
 LD          	:= mips-linux-gnu-ld
-CFLAGS      	:= -W all -O4 -nostdinc -gccinc -Iinclude
+CFLAGS      	:= -W all -O4 -nostdinc -gccinc -gccdep -Iinclude -MD
 SRC         	:= $(wildcard src/*.c)
 OBJ		 		:= $(SRC:%=$(BUILD_DIR)/obj/%.o)
+DEP		 		:= $(OBJ:.o=.d)
 
 .PHONY: all
 all: check
+
+include $(DEP)
+
+.PHONY: clean
+clean:
+	rm -rf $(BUILD_DIR)
+
+.PHONY: mrproper
+mrproper: clean
+	rm -rf $(TARGET)
+
+.PHONY: re
+re: mrproper all
 
 .PHONY: always-remake
 
