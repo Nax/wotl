@@ -1,3 +1,5 @@
+#include <wotl/item.h>
+
 int IsItemElementalGun(unsigned short itemId)
 {
     if (itemId == 0x4c)

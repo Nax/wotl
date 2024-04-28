@@ -1,3 +1,4 @@
 /.docker
 /build
 /input/BOOT.BIN
+/out/BOOT.BIN

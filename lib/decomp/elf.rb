@@ -201,3 +201,46 @@ class ElfSectionHeader
     @sh_entsize = data[0x24, 4].unpack('L<').first
   end
 end
+
+class ElfSection
+  attr_reader :name
+  attr_reader :data
+
+  def initialize(name, data)
+    @name = name
+    @data = data
+  end
+end
+
+class Elf
+  attr_reader :sections
+
+  def initialize
+    @sections = {}
+  end
+
+  def load_file(file)
+    header = ElfHeader.new
+    header.load_file(file)
+
+    # Load the string table
+    file.seek(header.e_shoff + header.e_shstrndx * header.e_shentsize)
+    sh = ElfSectionHeader.new
+    sh.load_file(file)
+    file.seek(sh.sh_offset)
+    shstrtab = file.read(sh.sh_size)
+
+    file.seek(header.e_shoff)
+    header.e_shnum.times do |i|
+      file.seek(header.e_shoff + i * header.e_shentsize)
+      sh = ElfSectionHeader.new
+      sh.load_file(file)
+
+      name = shstrtab[sh.sh_name..-1].split("\x00").first
+      file.seek(sh.sh_offset)
+      data = file.read(sh.sh_size)
+      section = ElfSection.new(name, data)
+      @sections[name] = section
+    end
+  end
+end
