@@ -5,5 +5,6 @@
 
 int IsItemElementalGun(u16 itemId);
 int IsItemOnion(u16 itemId);
+int IsItemMinerva(u16 itemId);
 
 #endif

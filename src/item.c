@@ -21,3 +21,14 @@ int IsItemOnion(unsigned short itemId)
 
     return 1;
 }
+
+int IsItemMinerva(unsigned short itemId)
+{
+    switch (itemId)
+    {
+    case 0x12e:
+        return 1;
+    }
+
+    return 0;
+}
