@@ -56,7 +56,7 @@ def emit_object(id, section, vstart, size)
   s.sh_addr = vstart
   s.sh_offset = 0x3000
   s.sh_size = size
-  s.sh_addralign = 4
+  s.sh_addralign = 16
 
   # Build ELF header
   header.e_ident = "\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -111,7 +111,7 @@ def perform_split(section)
       # We have a file
       cursor = file[2]
       file_id += 1
-      names << "obj/#{file[0]}.o"
+      names << "build/obj/#{file[0]}.o"
     else
       # We need to emit binary data
       vend = section_def.vaddr + section_def.size
