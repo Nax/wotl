@@ -1,6 +1,6 @@
 #include <wotl.h>
 
-int IsItemElementalGun(u16 itemId)
+int Item_IsElementalGun(u16 itemId)
 {
     if (itemId == ITEM_BLASTER)
         return 1;
@@ -11,7 +11,7 @@ int IsItemElementalGun(u16 itemId)
     return 1;
 }
 
-int IsItemOnion(u16 itemId)
+int Item_IsOnion(u16 itemId)
 {
     if (itemId == ITEM_ONION_GLOVES)
         return 1;
@@ -22,7 +22,7 @@ int IsItemOnion(u16 itemId)
     return 1;
 }
 
-int IsItemMinerva(u16 itemId)
+int Item_IsMinerva(u16 itemId)
 {
     switch (itemId)
     {

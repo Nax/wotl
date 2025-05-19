@@ -320,8 +320,8 @@
 #define ITEM_UNK314                 0x13a
 #define ITEM_UNK315                 0x13b
 
-int IsItemElementalGun(u16 itemId);
-int IsItemOnion(u16 itemId);
-int IsItemMinerva(u16 itemId);
+int Item_IsElementalGun(u16 itemId);
+int Item_IsOnion(u16 itemId);
+int Item_IsMinerva(u16 itemId);
 
 #endif
