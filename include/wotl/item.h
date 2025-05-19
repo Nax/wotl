@@ -320,6 +320,7 @@
 #define ITEM_UNK314                 0x13a
 #define ITEM_UNK315                 0x13b
 
+int Item_IsNone(u16 itemId);
 int Item_IsRandomPlaceholder(u16 itemId);
 int Item_IsElementalGun(u16 itemId);
 int Item_IsOnion(u16 itemId);

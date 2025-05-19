@@ -1,5 +1,14 @@
 #include <wotl.h>
 
+int Item_IsNone(u16 itemId)
+{
+    if (itemId != ITEM_NONE)
+        {}
+    else
+        return 1;
+    return 0;
+}
+
 int Item_IsRandomPlaceholder(u16 itemId)
 {
     if (itemId != ITEM_RANDOM)
