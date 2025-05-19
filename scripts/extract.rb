@@ -8,7 +8,7 @@ DATA = File.binread('input/BOOT.BIN')
 META = YAML.load_file('meta.yml')
 
 def emit_object(id, section, vstart, size)
-  section_def = SECTIONS.find { |s| s.name == '.' + section }
+  section_def = SECTIONS.find { |s| s.name == section }
   raise "Unknown section: #{section}" unless section_def
   voffset = vstart - section_def.vaddr
   paddr = section_def.paddr + voffset
@@ -25,7 +25,7 @@ def emit_object(id, section, vstart, size)
   # Build shstrtab
   shstrtab_data = "\x00"
   sh_headers[1].sh_name = shstrtab_data.size
-  shstrtab_data << '.' + section + "\x00"
+  shstrtab_data << section + "\x00"
   sh_headers[2].sh_name = shstrtab_data.size
   shstrtab_data << ".shstrtab\x00"
   elf_buffer[0x2000, shstrtab_data.size] = shstrtab_data
@@ -77,7 +77,7 @@ def emit_object(id, section, vstart, size)
 end
 
 def perform_split(section)
-  section_def = SECTIONS.find { |s| s.name == "." + section }
+  section_def = SECTIONS.find { |s| s.name == section }
   files = []
   META['files'].each do |filename, meta|
     next unless meta[section]
@@ -116,7 +116,9 @@ def perform_split(section)
 end
 
 NAMES = {}
-NAMES['.text'] = perform_split('text')
+SECTIONS.each do |section|
+  NAMES[section.name] = perform_split(section.name)
+end
 
 # Emit the linker script
 template = File.read('link.ld.in')
@@ -124,5 +126,3 @@ NAMES.each do |section, names|
   template.gsub!("%FILES(#{section})", names.map { |n| "#{n}(#{section})" }.join("\n"))
 end
 File.write('build/link.ld', template)
-
-#emit_object('.text', 0x08804000, 0x246f14)
