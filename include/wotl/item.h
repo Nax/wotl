@@ -319,7 +319,9 @@
 #define ITEM_SAGES_RING             0x139
 #define ITEM_UNK314                 0x13a
 #define ITEM_UNK315                 0x13b
+#define ITEM_COUNT                  0x13c
 
+int Item_IsInvalid(u16 itemId);
 int Item_IsNone(u16 itemId);
 int Item_IsRandomPlaceholder(u16 itemId);
 int Item_IsElementalGun(u16 itemId);
