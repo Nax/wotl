@@ -2,10 +2,10 @@
 
 int IsItemElementalGun(u16 itemId)
 {
-    if (itemId == 0x4c)
+    if (itemId == ITEM_BLASTER)
         return 1;
 
-    if ((itemId != 0x4B) && (itemId != 0x4A))
+    if ((itemId != ITEM_BLAZE_GUN) && (itemId != ITEM_GLACIAL_GUN))
         return 0;
 
     return 1;
@@ -13,10 +13,10 @@ int IsItemElementalGun(u16 itemId)
 
 int IsItemOnion(u16 itemId)
 {
-    if (itemId == 0x136)
+    if (itemId == ITEM_ONION_GLOVES)
         return 1;
 
-    if ((itemId != 0x12d) && (itemId != 0x125) && (itemId != 0x120) && (itemId != 0x106))
+    if ((itemId != ITEM_ONION_ARMOR) && (itemId != ITEM_ONION_HELM) && (itemId != ITEM_ONION_SHIELD) && (itemId != ITEM_ONION_SWORD))
         return 0;
 
     return 1;
@@ -26,7 +26,7 @@ int IsItemMinerva(u16 itemId)
 {
     switch (itemId)
     {
-    case 0x12e:
+    case ITEM_MINERVA_BUSTIER:
         return 1;
     }
 
