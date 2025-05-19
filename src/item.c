@@ -1,6 +1,6 @@
-#include <wotl/item.h>
+#include <wotl.h>
 
-int IsItemElementalGun(unsigned short itemId)
+int IsItemElementalGun(u16 itemId)
 {
     if (itemId == 0x4c)
         return 1;
@@ -11,7 +11,7 @@ int IsItemElementalGun(unsigned short itemId)
     return 1;
 }
 
-int IsItemOnion(unsigned short itemId)
+int IsItemOnion(u16 itemId)
 {
     if (itemId == 0x136)
         return 1;
@@ -22,7 +22,7 @@ int IsItemOnion(unsigned short itemId)
     return 1;
 }
 
-int IsItemMinerva(unsigned short itemId)
+int IsItemMinerva(u16 itemId)
 {
     switch (itemId)
     {
