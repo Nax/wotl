@@ -40,11 +40,17 @@ def emit_object(id, section, vstart, size)
   # Build section
   s = sh_headers[1]
   s.sh_type = 1
-  s.sh_flags = 0x06
   s.sh_addr = vstart
   s.sh_offset = 0x3000
   s.sh_size = size
-  s.sh_addralign = 64
+
+  if section == '.text'
+    s.sh_flags = 0x06
+    s.sh_addralign = 64
+  else
+    s.sh_flags = 0x03
+    s.sh_addralign = 1
+  end
 
   # Build ELF header
   header.e_ident = "\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"

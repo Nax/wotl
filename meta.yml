@@ -1,3 +1,3 @@
 files:
-  "src/item.c":
-    ".text": [0x08a18c00, 0x08a18dc0]
+  "src/item.c":             {".text": [0x08a18c00, 0x08a18dc0]}
+  "src/data_item_table.c":  {".data": [0x08b29288, 0x08b29e88]}

@@ -1,6 +1,7 @@
 #ifndef WOTL_ITEM_H
 #define WOTL_ITEM_H
 
+#include <wotl/common.h>
 #include <wotl/types.h>
 
 #define ITEM_NONE                   0x00
@@ -327,5 +328,24 @@ int Item_IsRandomPlaceholder(u16 itemId);
 int Item_IsElementalGun(u16 itemId);
 int Item_IsOnion(u16 itemId);
 int Item_IsMinerva(u16 itemId);
+
+typedef struct
+{
+    u8  palette;
+    u8  gfx;
+    u8  level;
+    u8  flags;
+    u8  unk0;
+    u8  type;
+    u8  unk1;
+    u8  attrId;
+    u16 price;
+    u8  shop;
+    u8  unk2;
+}
+ItemData;
+
+extern CONST ItemData kItemTable[];
+extern CONST ItemData kItemTable2[];
 
 #endif

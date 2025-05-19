@@ -54,4 +54,4 @@ $(LD_SCRIPT): $(SCRIPT_EXTRACT) $(LD_SCRIPT_IN) $(META_FILE)
 $(BUILD_DIR)/obj/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
-	$(OBJCOPY) $@ --set-section-alignment .text=64
+	$(OBJCOPY) $@ --set-section-alignment .text=64 --set-section-alignment .data=1
