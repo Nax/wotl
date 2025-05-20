@@ -351,10 +351,19 @@ typedef struct
 }
 ItemWeaponData;
 
+typedef struct
+{
+    u8 blockPhysical;
+    u8 blockMagical;
+}
+ItemShieldData;
+
 extern CONST ItemData kItemTable[];
 extern CONST ItemData kItemTable2[];
 extern CONST ItemWeaponData kItemWeaponTable[];
 extern CONST ItemWeaponData kItemWeaponTable2[];
+extern CONST ItemShieldData kItemShieldTable[];
+extern CONST ItemShieldData kItemShieldTable2[];
 
 int Item_IsInvalid(u16 itemId);
 int Item_IsNone(u16 itemId);
