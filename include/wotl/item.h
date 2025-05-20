@@ -338,8 +338,23 @@ typedef struct
 }
 ItemData;
 
+typedef struct
+{
+    u8 range;
+    u8 flags;
+    u8 formula;
+    u8 unk1;
+    u8 wp;
+    u8 evade;
+    u8 elements;
+    u8 statusInflict;
+}
+ItemWeaponData;
+
 extern CONST ItemData kItemTable[];
 extern CONST ItemData kItemTable2[];
+extern CONST ItemWeaponData kItemWeaponTable[];
+extern CONST ItemWeaponData kItemWeaponTable2[];
 
 int Item_IsInvalid(u16 itemId);
 int Item_IsNone(u16 itemId);
