@@ -4,5 +4,7 @@ SECTIONS
 {
   . = 0x08804000;
   .text : { %FILES(.text) }
+
+  . = 0x08a4c11c;
   .data : { %FILES(.data) }
 }

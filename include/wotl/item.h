@@ -322,13 +322,6 @@
 #define ITEM_UNK315                 0x13b
 #define ITEM_COUNT                  0x13c
 
-int Item_IsInvalid(u16 itemId);
-int Item_IsNone(u16 itemId);
-int Item_IsRandomPlaceholder(u16 itemId);
-int Item_IsElementalGun(u16 itemId);
-int Item_IsOnion(u16 itemId);
-int Item_IsMinerva(u16 itemId);
-
 typedef struct
 {
     u8  palette;
@@ -347,5 +340,13 @@ ItemData;
 
 extern CONST ItemData kItemTable[];
 extern CONST ItemData kItemTable2[];
+
+int Item_IsInvalid(u16 itemId);
+int Item_IsNone(u16 itemId);
+int Item_IsRandomPlaceholder(u16 itemId);
+int Item_IsElementalGun(u16 itemId);
+int Item_IsOnion(u16 itemId);
+int Item_IsMinerva(u16 itemId);
+CONST ItemData* Item_GetData(u16 itemId);
 
 #endif

@@ -14,6 +14,21 @@ puts "out/BOOT.BIN: #{d}"
 
 if d != TARGET
   puts "Checksum mismatch!"
+  indata = File.binread('input/BOOT.BIN')
+  indata.size.times do |i|
+    d_in = indata[i].unpack1('C')
+    d_out = data[i].unpack1('C')
+    if d_in != d_out
+      # We found the first mismatch
+      SECTIONS.each do |section|
+        if section.paddr <= i && i < section.paddr + section.size
+          vaddr = section.vaddr + (i - section.paddr)
+          puts "Mismatch at vaddr 0x%08x (section %s)" % [vaddr, section.name]
+          exit 1
+        end
+      end
+    end
+  end
   exit 1
 end
 
