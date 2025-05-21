@@ -15,7 +15,7 @@ CC          	:= mwccpsp.exe
 ARCH 			:= mips-linux-gnu
 LD          	:= $(ARCH)-ld
 OBJCOPY     	:= $(ARCH)-objcopy
-CFLAGS      	:= -W all -O4 -nostdinc -gccinc -gccdep -Iinclude -MD
+CFLAGS      	:= -W all -O3 -nostdinc -gccinc -gccdep -Iinclude -MD
 SRC         	:= $(wildcard src/*.c)
 OBJ		 		:= $(SRC:%=$(BUILD_DIR)/obj/%.o)
 DEP		 		:= $(OBJ:.o=.d)
