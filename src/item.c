@@ -2,14 +2,10 @@
 
 int Item_IsInvalid(u16 itemId)
 {
-    int ret;
-
     if ((itemId == ITEM_TERMINATOR) || (itemId >= ITEM_COUNT))
-        ret = 1;
+        return 1;
     else
-        ret = 0;
-
-    return ret;
+        return 0;
 }
 
 int Item_IsNone(u16 itemId)
