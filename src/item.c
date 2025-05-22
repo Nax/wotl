@@ -1,18 +1,16 @@
 #include <wotl.h>
 
-#if 0
 int Item_IsInvalid(u16 itemId)
 {
-    if (itemId == ITEM_TERMINATOR)
-        return 1;
+    int ret;
 
-    if (itemId < ITEM_COUNT)
-        {}
+    if ((itemId == ITEM_TERMINATOR) || (itemId >= ITEM_COUNT))
+        ret = 1;
     else
-        return 1;
-    return 0;
+        ret = 0;
+
+    return ret;
 }
-#endif
 
 int Item_IsNone(u16 itemId)
 {
